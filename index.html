@@ -1,0 +1,402 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>requirejs-demo</title>
+    <link rel="stylesheet" type="text/css" href="./images/font_gqfn51o4yaz1714i/iconfont.css">
+    <style>
+        body,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .content {
+            width: 1200px;
+            /*保证content的区域宽度与轮播保持一致*/
+            margin: 0 auto;
+            /*box-sizing: border-box;*/
+        }
+
+        .carousel {
+            height: 600px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .carousel-img {
+            position: absolute;
+            width: 4800px;
+            cursor: pointer;
+        }
+
+        .carousel-img img {
+            width: 1200px;
+            height: 600px;
+        }
+
+        .carousel-img p {
+            position: absolute;
+            bottom: 10%;
+            /*left:50%;
+            transform: translate(-50%,0);*/
+            text-align: center;
+            color: #fff;
+            width: 100%;
+            font-size: 24px;
+            padding: 20px 0;
+        }
+        /*.carousel-img span {
+            position: absolute;
+            left: 50%;
+            top: 50%
+        }*/
+
+        .carousel-img>li {
+            float: left;
+            position: relative;
+        }
+
+        .clearfix::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .button {
+            position: absolute;
+            /*行内元素脱离文档流可设置宽高*/
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            font-size: 100px;
+            color: #ccc;
+            line-height: 100px;
+            top: 50%;
+            margin-top: -50px;
+            text-decoration: none;
+        }
+
+        .pre {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        .button:hover {
+            background: #000;
+            opacity: 0.7;
+            border-radius: 10px;
+        }
+
+        .pane {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translate(-50%);
+            width: 216px;
+            /*避免窗口缩小时pane不再成一行*/
+        }
+
+        .pane li {
+            float: left;
+            width: 50px;
+            height: 50px;
+            margin: 2px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .pane .active {
+            background: rgba(0, 0, 0, .6);
+        }
+
+        .header {
+            width: 100%;
+        }
+
+        .top {
+            height: 80px;
+            background-image: url(http://img1.gtimg.com/sports/pics/hv1/105/190/2213/143948880.png);
+            background-repeat: no-repeat;
+            background-size: 600px 100%;
+            background-position: center;
+            background-color: #005b99;
+            position: relative
+        }
+
+        .top>a {
+            position: absolute;
+            left: 2%;
+            top: 50%;
+            transform: translate(0, -50%)
+        }
+
+        .link {
+            position: absolute;
+            left: 18.5%;
+            top: 65%;
+        }
+
+        .link a {
+            text-decoration: none;
+            font-size: 13px;
+            color: #4bacfe
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+        .pe {
+            border-right: 1px solid #4bacfe;
+            padding: 0 10px 0 0;
+        }
+
+        .login {
+            float: right;
+            top: 50%;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+
+        .login a {
+
+            text-decoration: none;
+            color: #fff;
+            font-size: 13px;
+            margin: 0 10px;
+        }
+
+        .login a:nth-child(2) {
+            display: inline-block;
+            height: 50px;
+            width: 50px;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1)
+        }
+
+        .login a:nth-child(1):hover {
+            color: #fbe512
+        }
+
+        .login a:nth-child(2):hover {
+            background: rgba(0, 0, 0, 0.3)
+        }
+
+        .nav {
+            height: 50px;
+            background-image: url(http://mat1.gtimg.com/sports/nba2015_statics/public/header_nav_bg.png);
+            line-height: 50px;
+            background-color: rgb(0, 71, 110);
+        }
+
+        .nav-list {
+            display: inline-block;
+        }
+
+        .nav-list li {
+            float: left;
+        }
+
+        .nav-list a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .nav-list a:hover {
+            color: #4bacfe;
+        }
+
+        .nav-main {
+            margin-left: 50px;
+            padding: 0 10px;
+        }
+
+        .nav-main a {
+            padding: 10px 10px;
+        }
+
+        .nav-right a {
+            padding: 10px 20px;
+        }
+
+        .nav-split {
+            background-color: #004372;
+            width: 1px;
+            height: 16px;
+            margin: 18px 20px 16px;
+            display: inline-block;
+        }
+
+        .back-top {
+            height: 70px;
+            width: 70px;
+            background: #004372;
+            position: fixed;
+            top: 85%;
+            right: 4px;
+            display: none;
+            text-align: center;
+            font-size: 60px;
+            opacity: .6;
+        }
+
+        .back-top:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .back-top span {
+            vertical-align: middle;
+            color: #fff;
+        }
+        .container {
+            /*position: fixed;
+            right: 0;*/
+            position: relative;
+            /*height: 1000px;*/
+        }
+
+        .container li{
+            width: 390px;
+            position: absolute;
+            margin-right: 15px;
+            margin-top: 15px;
+            /*transition: all 1s;*/
+            list-style:none;
+            width:390px;
+        }
+        .container img {
+            width:390px;
+        }
+        .container h4 {
+            margin:2px 0;
+            text-align: center;
+        }
+        .container p {
+            border-top:1px solid #777371;
+            padding:10px 8px;
+            color:#777371;
+            font-size:14px;
+        }
+        .symbol {
+            visibility: hidden;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="top clearfix">
+            <a href="">
+                <img src="images/9.png" alt="">
+            </a>
+            <div class="link">
+                <a href="">腾讯网</a>
+                <a href="" class="pe">腾讯体育</a>
+                <a href="">NBA中文网</a>
+            </div>
+            <div class="login">
+                <a href="">开通会员</a>
+                <a href="">登录</a>
+            </div>
+        </div>
+        <div class="nav">
+            <ul class="nav-list nav-main clearfix">
+                <li><a href="">首页</a></li>
+                <li>
+                    <a href="">
+                        <i class="iconfont icon-shipin"></i>
+                        视频
+                        <i class="iconfont icon-submenu"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="iconfont icon-live"></i>
+                        直播
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="iconfont icon-tupian01"></i>
+                        图片
+                    </a>
+                </li>
+            </ul>
+            <div class="nav-split"></div>
+            <ul class="nav-list nav-right clearfix">
+                <li><a href="">新闻</a></li>
+                <li><a href="">球员<i class="iconfont icon-submenu"></i></a></li>
+                <li><a href="">球队<i class="iconfont icon-submenu"></i></a></li>
+                <li><a href="">赛程</a></li>
+                <li><a href="">数据</a></li>
+                <li><a href="">季后赛</a></li>
+                <li><a href="">社区<i class="iconfont icon-submenu"></i></a></li>
+                <li><a href="">原创</a></li>
+                <li><a href="">节目<i class="iconfont icon-submenu"></i></a></li>
+                <li><a href="">评论<i class="iconfont icon-submenu"></i></a></li>
+                <li><a href="">更多<i class="iconfont icon-submenu"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content">
+        <div class="carousel">
+            <ul class="carousel-img clearfix">
+                <li><a href=""><img src="images/8.jpg" alt=""><p>季后赛对阵图：终于等到你！骑勇会师总决赛</p></a></li>
+                <li><img src="images/6.jpg" alt="">
+                    <p>库里再战詹皇?谁能夺魁?</p>
+                </li>
+                <li><img src="images/7.jpg" alt="">
+                    <p>詹姆斯能否再次为家乡带去总冠军?</p>
+                </li>
+                <li><img src="images/5.jpg" alt="">
+                    <p>替补也能改变局势?这几人成总决赛X因素</p>
+                </li>
+            </ul>
+            <a href="" class="button pre">&lt;</a>
+            <a href="" class="button next">&gt;</a>
+            <ul class="pane clearfix">
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="news">
+            <ul class="container">
+                <!--<li>
+                    <a href="javascript:void(0)"><img src="images/6.jpg" alt=""></a>
+                    <h4>哈哈啊的哈艰苦打还是看到喀什</h4>
+                    <p>我是段落ask大家阿拉山口多久啊商量决定啦开始觉得；的</p>
+                </li>
+                <li>
+                    <a href="javascript:void(0)"><img src="images/1.jpg" alt=""></a>
+                    <h4>哈哈啊的哈艰苦打还是看到喀什</h4>
+                    <p>我是段落ask大家阿拉山口多久啊商量决定啦开始觉得；的</p>
+                </li>
+                <li>
+                    <a href="javascript:void(0)"><img src="images/9.png" alt=""></a>
+                    <h4>哈哈啊的哈艰苦打还是看到喀什</h4>
+                    <p>我是段落ask大家阿拉山口多久啊商量决定啦开始觉得；的</p>
+                </li>-->
+                </ul>
+                <div class="symbol"></div>
+        </div>
+    <script data-main="dist/js/index.merge.min.js" src="scripts/require.js"></script>
+</body>
+</html>
